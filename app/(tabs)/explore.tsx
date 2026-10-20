@@ -62,6 +62,7 @@ const baseUrgeHelp = [
 export default function InsightsScreen() {
   const [showAllSessions, setShowAllSessions] = useState(false);
   const [showUrgeHelp, setShowUrgeHelp] = useState(false);
+  const [sevenDaysAgo] = useState(() => Date.now() - 7 * 24 * 60 * 60 * 1000);
   const {
     averageSessionSeconds,
     checkInDue,
@@ -85,7 +86,6 @@ export default function InsightsScreen() {
   const days = buildWeekdayData(sessions);
   const urgeHelp = getUrgeHelp(quitPlan?.productType);
   const recentWeekSessions = sessions.filter((session) => {
-    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     return new Date(session.startedAt).getTime() >= sevenDaysAgo;
   });
   const summary = [

@@ -86,13 +86,13 @@ This project started from three inspiration cards:
 
 | Area | Technology |
 | --- | --- |
-| App | React Native 0.81 and React 19 |
-| Tooling | Expo SDK 54 |
-| Navigation | Expo Router 6 |
+| App | React Native 0.86 and React 19.2 |
+| Tooling | Expo SDK 57 |
+| Navigation | Expo Router 57 |
 | Authentication | Firebase Authentication |
 | Database | Cloud Firestore |
 | Local cache | AsyncStorage |
-| Notifications | Expo Notifications |
+| Notifications | Expo Notifications 57, local reminders only |
 | Testing | Jest and Jest Expo |
 | Language | TypeScript |
 
@@ -100,10 +100,12 @@ This project started from three inspiration cards:
 
 ### Requirements
 
-- Node.js 20 or later
+- Node.js 22 LTS, version 22.13 or newer
 - npm
-- Expo Go with SDK 54 support for device testing
+- The current Expo Go app with SDK 57 support
 - An Android or iOS device on the same network as the development computer
+
+SKOP uses the Expo CLI installed inside the project. A global `expo-cli` install is not required.
 
 ### Install
 
@@ -118,14 +120,16 @@ The Firebase client configuration required by the app is included in the reposit
 ### Expo Go
 
 ```bash
-npm run expo
+npm run mobile
 ```
 
 Scan the QR code with Expo Go. If Metro has stale cached files, run:
 
 ```bash
-npm run expo:clear
+npm run mobile:clear
 ```
+
+The project uses LAN mode. Keep the phone and development computer on the same network.
 
 ### Web
 
@@ -137,10 +141,11 @@ Expo opens the web app at `http://localhost:8081`.
 
 ### Troubleshooting
 
-- If Expo reports stale files or an old asset, stop Metro and run `npm run expo:clear`.
+- If Expo reports stale files or an old asset, stop Metro and run `npm run mobile:clear`.
 - If Expo returns `TypeError: fetch failed`, confirm that `https://api.expo.dev` opens on the development computer, then restart the terminal and Metro.
 - The computer and phone must be on the same network when using Expo Go over LAN.
-- Expo Go may print a remote-notification warning on Android. SKOP uses local reminders, but full notification testing belongs in a development build.
+- SKOP uses local notifications, which Expo Go supports. It does not request an Expo push token or use remote push notifications.
+- SDK 57's `expo-notifications` entry point loads a topic-subscription module that Expo Go does not include. SKOP imports only the local notification APIs it needs, avoiding that unused module.
 
 ## Firebase behaviour
 
@@ -158,21 +163,23 @@ Expo opens the web app at `http://localhost:8081`.
 npm test
 npm run lint
 npx tsc --noEmit
+npx expo-doctor
+npx expo export --platform all --clear
 ```
 
-The Jest suite covers journey date rules, age groups, spending calculations, completed check-in periods, and streak calculations.
+The Jest suite covers journey date rules, age groups, spending calculations, completed check-in periods, and streak calculations. Expo Doctor checks SDK package compatibility. The export command verifies Android, iOS, and web bundles.
 
 ## Platform notes
 
-- **Android:** tested through Expo Go on a Samsung S23 FE, including portrait and landscape layouts.
-- **Web:** supported through React Native Web and Expo Router static web output.
-- **iOS:** configured through Expo and React Native with tablet support. Runtime testing has not been completed because an Apple test device and macOS build machine were not available.
+- **Android:** tested through Expo Go on a Samsung S23 FE, including portrait and landscape layouts. The SDK 57 Android bundle exports without errors.
+- **Web:** supported through React Native Web and Expo Router static web output. The SDK 57 web bundle exports without errors.
+- **iOS:** configured through Expo and React Native with tablet support. The SDK 57 iOS bundle exports without errors, but runtime testing has not been completed because an Apple test device and macOS build machine were not available.
 - **Tablets:** responsive layouts are provided for portrait and landscape widths.
 - **Breakout:** the game asks the device to use landscape while a session is active.
 
 ## Known limitations
 
-- Android remote push notifications are not available in Expo Go from SDK 53 onward. SKOP only schedules local reminders, but notification testing may require a development build when Expo Go reports its remote-notification warning.
+- Remote push notifications are not available in Expo Go on Android from SDK 53 onward. SKOP does not use remote push notifications. Local check-in reminders remain available.
 - iOS runtime behaviour still needs testing on Apple hardware.
 - Guardian consent is a guardian self-attestation flow. It does not verify government identity or replace legal review.
 - Guidance in SKOP is educational and does not replace support from a doctor or pharmacist.

@@ -1,4 +1,4 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router/react-navigation';
 import {
   BricolageGrotesque_400Regular,
   BricolageGrotesque_600SemiBold,
@@ -7,7 +7,6 @@ import {
 } from '@expo-google-fonts/bricolage-grotesque';
 import { BitcountGridDouble_400Regular } from '@expo-google-fonts/bitcount-grid-double';
 import { BitcountGridSingle_400Regular } from '@expo-google-fonts/bitcount-grid-single';
-import * as Notifications from 'expo-notifications';
 import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -21,6 +20,11 @@ import { AuthProvider, useAuth } from '@/context/auth';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { SkopSessionProvider, useSkopSession } from '@/context/skop-session';
 import { PreAccountProvider, usePreAccount } from '@/context/pre-account';
+import {
+  addNotificationResponseReceivedListener,
+  getLastNotificationResponseAsync,
+  type NotificationResponse,
+} from '@/lib/skop-notifications';
 
 // keeps the splash screen open while the fonts load
 SplashScreen.preventAutoHideAsync();
@@ -65,7 +69,7 @@ export default function RootLayout() {
         <SkopSessionProvider>
           <ThemeProvider value={navigationTheme}>
             <RootNavigator />
-            <StatusBar backgroundColor={SkopColors.background} style="dark" translucent />
+            <StatusBar style="dark" />
           </ThemeProvider>
         </SkopSessionProvider>
       </AuthProvider>
@@ -88,12 +92,12 @@ function RootNavigator() {
   useEffect(() => {
     if (Platform.OS === 'web') return;
 
-    const openNotification = (response: Notifications.NotificationResponse | null) => {
+    const openNotification = (response: NotificationResponse | null) => {
       const url = response?.notification.request.content.data?.url;
       if (url === '/check-in') router.push('/check-in');
     };
-    void Notifications.getLastNotificationResponseAsync().then(openNotification);
-    const subscription = Notifications.addNotificationResponseReceivedListener(openNotification);
+    void getLastNotificationResponseAsync().then(openNotification);
+    const subscription = addNotificationResponseReceivedListener(openNotification);
     return () => subscription.remove();
   }, []);
 

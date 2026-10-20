@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   chromeBackground: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: SkopColors.chrome,
   },
 });

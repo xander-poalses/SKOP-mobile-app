@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
 import { Image } from 'expo-image';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -275,17 +275,10 @@ export default function WelcomeScreen() {
 }
 
 function BirthDateFields({ value, onChange }: { value: string; onChange: (value: string) => void }) {
-  const [year, setYear] = useState('');
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-
-  useEffect(() => {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return;
-    const [nextYear, nextMonth, nextDay] = value.split('-');
-    setYear(nextYear);
-    setMonth(nextMonth);
-    setDay(nextDay);
-  }, [value]);
+  const initialDate = /^\d{4}-\d{2}-\d{2}$/.test(value) ? value.split('-') : ['', '', ''];
+  const [year, setYear] = useState(initialDate[0]);
+  const [month, setMonth] = useState(initialDate[1]);
+  const [day, setDay] = useState(initialDate[2]);
 
   const update = (nextDay: string, nextMonth: string, nextYear: string) => {
     setDay(nextDay);
@@ -308,7 +301,10 @@ function BirthDateFields({ value, onChange }: { value: string; onChange: (value:
       <SkopDatePicker
         maximumDate={dateToInputValue(new Date())}
         minimumDate="1906-01-01"
-        onChange={onChange}
+        onChange={(nextValue) => {
+          const [nextYear, nextMonth, nextDay] = nextValue.split('-');
+          update(nextDay, nextMonth, nextYear);
+        }}
         value={value}
       />
     </View>

@@ -12,7 +12,7 @@
 
 - [x] Clone the public repository into a new folder.
 - [x] Run `npm ci` without using files from the working copy.
-- [ ] Run `npm run expo` and open the app in Expo Go on a phone.
+- [ ] Run `npm run mobile` and open the app in Expo Go on a phone.
 - [x] Run `npm run web` and start `http://localhost:8081`.
 - [x] Confirm no `.env` file or local Firebase file is required.
 

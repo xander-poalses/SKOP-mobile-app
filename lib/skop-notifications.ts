@@ -1,4 +1,19 @@
-import * as Notifications from 'expo-notifications';
+// shortcut: Expo Go SDK 57 lacks the topic module, remove these direct imports when Expo fixes its package entry point.
+import { cancelScheduledNotificationAsync } from 'expo-notifications/build/cancelScheduledNotificationAsync';
+import {
+  addNotificationResponseReceivedListener,
+  getLastNotificationResponseAsync,
+} from 'expo-notifications/build/NotificationsEmitter';
+import { getPermissionsAsync, requestPermissionsAsync } from 'expo-notifications/build/NotificationPermissions';
+import { AndroidImportance } from 'expo-notifications/build/NotificationChannelManager.types';
+import {
+  AndroidNotificationPriority,
+  SchedulableTriggerInputTypes,
+} from 'expo-notifications/build/Notifications.types';
+import { scheduleNotificationAsync } from 'expo-notifications/build/scheduleNotificationAsync';
+import { setNotificationChannelAsync } from 'expo-notifications/build/setNotificationChannelAsync';
+import { setNotificationHandler } from 'expo-notifications/build/NotificationsHandler';
+import type { NotificationResponse, NotificationTriggerInput } from 'expo-notifications';
 import { Platform } from 'react-native';
 
 import type { CheckInCadence, QuitPlan } from '@/lib/skop-firestore';
@@ -7,7 +22,7 @@ const CHANNEL_ID = 'skop-check-ins';
 const NOTIFICATION_ID = 'skop-spend-check-in';
 
 if (Platform.OS !== 'web') {
-  Notifications.setNotificationHandler({
+  setNotificationHandler({
     handleNotification: async () => ({
       shouldPlaySound: false,
       shouldSetBadge: false,
@@ -21,7 +36,7 @@ if (Platform.OS !== 'web') {
 export async function applyCheckInReminder(plan: QuitPlan) {
   if (Platform.OS === 'web') return false;
 
-  await Notifications.cancelScheduledNotificationAsync(NOTIFICATION_ID).catch(() => undefined);
+  await cancelScheduledNotificationAsync(NOTIFICATION_ID).catch(() => undefined);
   if (
     plan.status !== 'reducing' ||
     !plan.remindersEnabled ||
@@ -32,25 +47,25 @@ export async function applyCheckInReminder(plan: QuitPlan) {
   }
 
   if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
+    await setNotificationChannelAsync(CHANNEL_ID, {
       name: 'SKOP check-ins',
       description: 'Reminders for spending check-ins',
-      importance: Notifications.AndroidImportance.LOW,
+      importance: AndroidImportance.LOW,
       enableVibrate: false,
       showBadge: false,
       sound: null,
     });
   }
 
-  const currentPermission = await Notifications.getPermissionsAsync();
+  const currentPermission = await getPermissionsAsync();
   const permission =
     currentPermission.status === 'granted'
       ? currentPermission
-      : await Notifications.requestPermissionsAsync();
+      : await requestPermissionsAsync();
   if (permission.status !== 'granted') return false;
 
   const hour = plan.reminderTime === 'morning' ? 8 : 20;
-  await Notifications.scheduleNotificationAsync({
+  await scheduleNotificationAsync({
     identifier: NOTIFICATION_ID,
     content: {
       title: 'Your SKOP check-in is ready',
@@ -58,7 +73,7 @@ export async function applyCheckInReminder(plan: QuitPlan) {
       data: { url: '/check-in' },
       sound: false,
       ...(Platform.OS === 'android'
-        ? { priority: Notifications.AndroidNotificationPriority.LOW }
+        ? { priority: AndroidNotificationPriority.LOW }
         : {}),
     },
     trigger: buildTrigger(plan.checkInCadence, hour),
@@ -69,15 +84,15 @@ export async function applyCheckInReminder(plan: QuitPlan) {
 
 export async function clearCheckInReminder() {
   if (Platform.OS === 'web') return;
-  await Notifications.cancelScheduledNotificationAsync(NOTIFICATION_ID).catch(() => undefined);
+  await cancelScheduledNotificationAsync(NOTIFICATION_ID).catch(() => undefined);
 }
 
-function buildTrigger(cadence: CheckInCadence, hour: number): Notifications.NotificationTriggerInput {
+function buildTrigger(cadence: CheckInCadence, hour: number): NotificationTriggerInput {
   const channelId = Platform.OS === 'android' ? CHANNEL_ID : undefined;
 
   if (cadence === 'daily') {
     return {
-      type: Notifications.SchedulableTriggerInputTypes.DAILY,
+      type: SchedulableTriggerInputTypes.DAILY,
       hour,
       minute: 0,
       channelId,
@@ -86,7 +101,7 @@ function buildTrigger(cadence: CheckInCadence, hour: number): Notifications.Noti
 
   if (cadence === 'weekly') {
     return {
-      type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
+      type: SchedulableTriggerInputTypes.WEEKLY,
       weekday: 2,
       hour,
       minute: 0,
@@ -95,10 +110,16 @@ function buildTrigger(cadence: CheckInCadence, hour: number): Notifications.Noti
   }
 
   return {
-    type: Notifications.SchedulableTriggerInputTypes.MONTHLY,
+    type: SchedulableTriggerInputTypes.MONTHLY,
     day: 1,
     hour,
     minute: 0,
     channelId,
   };
 }
+
+export {
+  addNotificationResponseReceivedListener,
+  getLastNotificationResponseAsync,
+  type NotificationResponse,
+};

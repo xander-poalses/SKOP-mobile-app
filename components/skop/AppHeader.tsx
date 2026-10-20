@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   chromeOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
   titleRow: {
     flex: 1,

@@ -243,8 +243,11 @@ export default function UrgeGameScreen() {
   });
   const completeSessionRef = useRef(completeSession);
   const recordHighScoreRef = useRef(recordHighScore);
-  completeSessionRef.current = completeSession;
-  recordHighScoreRef.current = recordHighScore;
+
+  useEffect(() => {
+    completeSessionRef.current = completeSession;
+    recordHighScoreRef.current = recordHighScore;
+  }, [completeSession, recordHighScore]);
 
   // every exit path calls this, so one urge-screen visit makes one record
   const saveSession = useCallback(() => {
@@ -563,8 +566,10 @@ export default function UrgeGameScreen() {
   // usememo keeps one responder until the phase or swipe handler changes
   // six pixels is enough movement for the screen to treat the touch as a swipe
   const panResponder = useMemo(
-    () =>
-      PanResponder.create({
+    () => {
+      // pan responder keeps gesture state in refs to avoid rendering on every touch move
+      // eslint-disable-next-line react-hooks/refs
+      return PanResponder.create({
         onStartShouldSetPanResponder: () => false,
         onMoveShouldSetPanResponder: (_, gesture) =>
           (phase === "ready" || phase === "playing") &&
@@ -595,7 +600,8 @@ export default function UrgeGameScreen() {
         onPanResponderTerminate: () => {
           swipeHandledRef.current = false;
         },
-      }),
+      });
+    },
     [onSwipe, phase],
   );
 
@@ -679,7 +685,7 @@ export default function UrgeGameScreen() {
   return (
     // safeareaview stops landscape content touching the screen cutout and side controls
     <SafeAreaView style={styles.screen} edges={["left", "right"]}>
-      <StatusBar backgroundColor={SkopColors.background} style="dark" translucent />
+      <StatusBar style="dark" />
       <View style={styles.shell}>
         <View style={[styles.header, compactGame && styles.compactHeader]}>
           <View
@@ -1144,7 +1150,7 @@ const styles = StyleSheet.create({
   },
   // absolutefillobject sets top, right, bottom and left to zero
   dialogBackdrop: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     zIndex: 20,
     backgroundColor: "rgba(33,23,18,0.45)",
     alignItems: "center",
