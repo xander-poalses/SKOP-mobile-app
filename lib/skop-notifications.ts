@@ -1,4 +1,4 @@
-// shortcut: Expo Go SDK 57 lacks the topic module, remove these direct imports when Expo fixes its package entry point.
+// shortcut: Expo Go lacks the topic module, use public package files until its native build includes it.
 import { cancelScheduledNotificationAsync } from 'expo-notifications/build/cancelScheduledNotificationAsync';
 import {
   addNotificationResponseReceivedListener,
@@ -13,7 +13,7 @@ import {
 import { scheduleNotificationAsync } from 'expo-notifications/build/scheduleNotificationAsync';
 import { setNotificationChannelAsync } from 'expo-notifications/build/setNotificationChannelAsync';
 import { setNotificationHandler } from 'expo-notifications/build/NotificationsHandler';
-import type { NotificationResponse, NotificationTriggerInput } from 'expo-notifications';
+import type { NotificationResponse, NotificationTriggerInput } from 'expo-notifications/build/Notifications.types';
 import { Platform } from 'react-native';
 
 import type { CheckInCadence, QuitPlan } from '@/lib/skop-firestore';

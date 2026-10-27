@@ -86,13 +86,13 @@ This project started from three inspiration cards:
 
 | Area | Technology |
 | --- | --- |
-| App | React Native 0.86 and React 19.2 |
-| Tooling | Expo SDK 57 |
-| Navigation | Expo Router 57 |
+| App | React Native 0.88 and React 19.3 |
+| Tooling | Expo SDK 58 |
+| Navigation | Expo Router 58 |
 | Authentication | Firebase Authentication |
 | Database | Cloud Firestore |
 | Local cache | AsyncStorage |
-| Notifications | Expo Notifications 57, local reminders only |
+| Notifications | Expo Notifications 58, local reminders only |
 | Testing | Jest and Jest Expo |
 | Language | TypeScript |
 
@@ -100,9 +100,9 @@ This project started from three inspiration cards:
 
 ### Requirements
 
-- Node.js 22 LTS, version 22.13 or newer
+- Node.js 22.13 or newer on the Node 22 line, Node 24.3 or newer, or Node 26 and newer
 - npm
-- The current Expo Go app with SDK 57 support
+- Expo Go with SDK 58 support, or an SDK 58 development build
 - An Android or iOS device on the same network as the development computer
 
 SKOP uses the Expo CLI installed inside the project. A global `expo-cli` install is not required.
@@ -145,7 +145,8 @@ Expo opens the web app at `http://localhost:8081`.
 - If Expo returns `TypeError: fetch failed`, confirm that `https://api.expo.dev` opens on the development computer, then restart the terminal and Metro.
 - The computer and phone must be on the same network when using Expo Go over LAN.
 - SKOP uses local notifications, which Expo Go supports. It does not request an Expo push token or use remote push notifications.
-- SDK 57's `expo-notifications` entry point loads a topic-subscription module that Expo Go does not include. SKOP imports only the local notification APIs it needs, avoiding that unused module.
+- SKOP imports only the local notification files it needs because some Expo Go builds do not include the topic-subscription native module loaded by the package entry point.
+- If Expo Go reports an SDK mismatch, update Expo Go. During the SDK 58 store rollout, use an SDK 58 development build until the matching Expo Go version reaches the device's app store.
 
 ## Firebase behaviour
 
@@ -171,16 +172,18 @@ The Jest suite covers journey date rules, age groups, spending calculations, com
 
 ## Platform notes
 
-- **Android:** tested through Expo Go on a Samsung S23 FE, including portrait and landscape layouts. The SDK 57 Android bundle exports without errors.
-- **Web:** supported through React Native Web and Expo Router static web output. The SDK 57 web bundle exports without errors.
-- **iOS:** configured through Expo and React Native with tablet support. The SDK 57 iOS bundle exports without errors, but runtime testing has not been completed because an Apple test device and macOS build machine were not available.
+- **Android:** tested through Expo Go on a Samsung S23 FE before the SDK 58 upgrade, including portrait and landscape layouts. The SDK 58 Android bundle exports without errors and supports Android 7 and newer.
+- **Web:** supported through React Native Web and Expo Router static web output. The SDK 58 web bundle exports without errors.
+- **iOS:** configured through Expo and React Native with tablet support. The SDK 58 iOS bundle exports without errors and supports iOS 16.4 and newer, but runtime testing has not been completed because an Apple test device and macOS build machine were not available.
 - **Tablets:** responsive layouts are provided for portrait and landscape widths.
 - **Breakout:** the game asks the device to use landscape while a session is active.
 
 ## Known limitations
 
 - Remote push notifications are not available in Expo Go on Android from SDK 53 onward. SKOP does not use remote push notifications. Local check-in reminders remain available.
+- The SDK 58 Expo Go store rollout may lag behind the SDK release. A development build is needed until the installed Expo Go app supports SDK 58.
 - iOS runtime behaviour still needs testing on Apple hardware.
+- On resizable iOS 27 devices, orientation locking may not force Breakout into landscape. The game still needs testing on that device class.
 - Guardian consent is a guardian self-attestation flow. It does not verify government identity or replace legal review.
 - Guidance in SKOP is educational and does not replace support from a doctor or pharmacist.
 

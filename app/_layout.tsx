@@ -140,7 +140,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       {/* breakout can distract users without requiring an account or saving a session */}
-      <Stack.Screen name="urge" options={{ animation: 'fade' }} />
+      <Stack.Screen name="urge" options={{ animation: 'fade', orientation: 'landscape' }} />
       <Stack.Screen name="legal" options={{ animation: 'fade' }} />
     </Stack>
   );
