@@ -21,19 +21,19 @@ export function BottomNav({ active }: BottomNavProps) {
       style={[styles.nav, compact && styles.compactNav]}>
       {/* keeps the blur tinted with the skop background colour */}
       <View pointerEvents="none" style={styles.chromeBackground} />
-      {/* replace stops old tab visits filling the back history */}
+      {/* navigate switches tabs in place, so the push transition runs */}
       <SkopButton
         label="HOME"
         compact={compact}
         variant={active === 'home' ? 'yellow' : 'surface'}
-        onPress={() => router.replace('/')}
+        onPress={() => router.navigate('/')}
       />
       {/* the active route gets its brand colour */}
       <SkopButton
         label="INSIGHTS"
         compact={compact}
         variant={active === 'insights' ? 'blue' : 'surface'}
-        onPress={() => router.replace('/explore')}
+        onPress={() => router.navigate('/explore')}
       />
     </BlurView>
   );

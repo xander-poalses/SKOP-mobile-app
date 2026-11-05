@@ -14,16 +14,13 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
   APP_HEADER_COMPACT_HEIGHT,
   APP_HEADER_HEIGHT,
-  AppHeader,
 } from '@/components/skop/AppHeader';
 import Animated from 'react-native-reanimated';
 
-import { BottomNav } from '@/components/skop/BottomNav';
 import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
 import { dialogEnter, rowEnter } from '@/constants/skop-motion';
 import { type SkopSessionRecord, useSkopSession } from '@/context/skop-session';
@@ -99,7 +96,7 @@ export default function InsightsScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
       <View style={styles.page}>
         <ScrollView
           refreshControl={
@@ -216,11 +213,6 @@ export default function InsightsScreen() {
           </View>
         </ScrollView>
 
-        {/* android blur updates when the header renders after the scroll content */}
-        <AppHeader title="Learn the URGE" />
-
-        {/* marks insights as the active tab */}
-        <BottomNav active="insights" />
       </View>
 
       <Modal
@@ -311,7 +303,7 @@ export default function InsightsScreen() {
           </Animated.View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }
 

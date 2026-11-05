@@ -12,16 +12,13 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
   APP_HEADER_COMPACT_HEIGHT,
   APP_HEADER_HEIGHT,
-  AppHeader,
 } from '@/components/skop/AppHeader';
 import Animated from 'react-native-reanimated';
 
-import { BottomNav } from '@/components/skop/BottomNav';
 import { SkopButton } from '@/components/skop/SkopButton';
 import { UndoToast } from '@/components/skop/UndoToast';
 import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
@@ -71,7 +68,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
       <View style={[styles.page, wideLayout && styles.widePage]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -176,12 +173,10 @@ export default function HomeScreen() {
           </View>
         </ScrollView>
 
-        <AppHeader title="SKOP the URGE" />
-        <BottomNav active="home" />
-        {/* sits just above the bottom nav after a streak reset */}
+        {/* sits just above the bottom nav, which now ends this screen */}
         {streakResetUndoable && (
           <UndoToast
-            bottom={(compactHeader ? 72 : 112) + 16}
+            bottom={16}
             message="Streak reset to today"
             onUndo={undoStreakReset}
           />
@@ -225,7 +220,7 @@ export default function HomeScreen() {
           </Animated.View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }
 
