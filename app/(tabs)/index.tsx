@@ -19,10 +19,13 @@ import {
   APP_HEADER_HEIGHT,
   AppHeader,
 } from '@/components/skop/AppHeader';
+import Animated from 'react-native-reanimated';
+
 import { BottomNav } from '@/components/skop/BottomNav';
 import { SkopButton } from '@/components/skop/SkopButton';
 import { UndoToast } from '@/components/skop/UndoToast';
 import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
+import { dialogEnter } from '@/constants/skop-motion';
 import { useSkopSession } from '@/context/skop-session';
 
 export default function HomeScreen() {
@@ -187,7 +190,7 @@ export default function HomeScreen() {
 
       <Modal animationType="fade" transparent visible={targetReached && !targetPromptHidden}>
         <View style={styles.modalBackdrop}>
-          <View style={styles.targetDialog}>
+          <Animated.View entering={dialogEnter} style={styles.targetDialog}>
             <Text style={styles.targetTitle}>DID YOUR QUIT DATE WORK FOR YOU?</Text>
             <Text style={styles.targetBody}>Your streak only starts when you confirm it.</Text>
             <SkopButton
@@ -219,7 +222,7 @@ export default function HomeScreen() {
             <Pressable onPress={() => setTargetPromptHidden(true)} style={styles.notNow}>
               <Text style={styles.notNowText}>Not now</Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
     </SafeAreaView>

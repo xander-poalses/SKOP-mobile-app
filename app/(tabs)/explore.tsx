@@ -21,8 +21,11 @@ import {
   APP_HEADER_HEIGHT,
   AppHeader,
 } from '@/components/skop/AppHeader';
+import Animated from 'react-native-reanimated';
+
 import { BottomNav } from '@/components/skop/BottomNav';
 import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
+import { dialogEnter, rowEnter } from '@/constants/skop-motion';
 import { type SkopSessionRecord, useSkopSession } from '@/context/skop-session';
 
 const weekdayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -231,7 +234,7 @@ export default function InsightsScreen() {
             onPress={() => setShowAllSessions(false)}
             style={StyleSheet.absoluteFill}
           />
-          <View style={styles.modalPanel}>
+          <Animated.View entering={dialogEnter} style={styles.modalPanel}>
             <View style={styles.modalHeader}>
               <View style={styles.modalHeading}>
                 <Text style={styles.modalTitle}>PAST 7 DAYS</Text>
@@ -247,10 +250,14 @@ export default function InsightsScreen() {
               {recentWeekSessions.length === 0 ? (
                 <Text style={styles.modalEmptyText}>No SKOP sessions were completed in the past 7 days.</Text>
               ) : (
-                recentWeekSessions.map((session) => <SessionRow key={session.id} session={session} />)
+                recentWeekSessions.map((session, index) => (
+                  <Animated.View entering={rowEnter(index)} key={session.id}>
+                    <SessionRow session={session} />
+                  </Animated.View>
+                ))
               )}
             </ScrollView>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -265,7 +272,7 @@ export default function InsightsScreen() {
             onPress={() => setShowUrgeHelp(false)}
             style={StyleSheet.absoluteFill}
           />
-          <View style={styles.modalPanel}>
+          <Animated.View entering={dialogEnter} style={styles.modalPanel}>
             <View style={styles.modalHeader}>
               <View style={styles.modalHeading}>
                 <Text style={styles.modalTitle}>WHEN AN URGE HITS</Text>
@@ -301,7 +308,7 @@ export default function InsightsScreen() {
                 <Ionicons color={SkopColors.ink} name="open-outline" size={18} />
               </Pressable>
             </ScrollView>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
     </SafeAreaView>

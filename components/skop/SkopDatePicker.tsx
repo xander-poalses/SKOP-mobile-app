@@ -2,8 +2,10 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useMemo, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { SkopColors, SkopFonts, skopShadow } from '@/constants/skop-theme';
+import { dialogEnter } from '@/constants/skop-motion';
 
 type SkopDatePickerProps = {
   maximumDate?: string;
@@ -71,7 +73,7 @@ export function SkopDatePicker({ maximumDate, minimumDate, onChange, value }: Sk
             onPress={() => setOpen(false)}
             style={StyleSheet.absoluteFill}
           />
-          <View style={styles.dialog}>
+          <Animated.View entering={dialogEnter} style={styles.dialog}>
             <View style={styles.dialogHeader}>
               <View>
                 <Text style={styles.eyebrow}>CHOOSE A DATE</Text>
@@ -186,7 +188,7 @@ export function SkopDatePicker({ maximumDate, minimumDate, onChange, value }: Sk
                 </>
               )}
             </ScrollView>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
     </>

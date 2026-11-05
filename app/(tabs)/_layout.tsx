@@ -8,6 +8,8 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: { display: 'none' },
+        // the new tab fades in while the old one fades out
+        animation: 'fade',
       }}>
       {/* the file name index makes this the home route */}
       <Tabs.Screen

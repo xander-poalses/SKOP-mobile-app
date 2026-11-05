@@ -14,10 +14,12 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
 
 import { SkopButton } from '@/components/skop/SkopButton';
 import { SkopDatePicker } from '@/components/skop/SkopDatePicker';
 import { SkopColors, SkopFonts, skopShadow } from '@/constants/skop-theme';
+import { dialogEnter } from '@/constants/skop-motion';
 import { useAuth } from '@/context/auth';
 import { useSkopSession } from '@/context/skop-session';
 import { getAuthErrorMessage } from '@/lib/auth-error';
@@ -397,7 +399,7 @@ export default function SettingsScreen() {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.planModalBackdrop}>
-            <View style={styles.planDialog}>
+            <Animated.View entering={dialogEnter} style={styles.planDialog}>
               <View style={styles.planHeader}>
                 <Text style={styles.dialogTitle}>CHANGE QUIT APPROACH</Text>
                 <Pressable accessibilityLabel="Close" onPress={() => setEditingPlan(false)} style={styles.closeButton}>
@@ -508,7 +510,7 @@ export default function SettingsScreen() {
                   variant="green"
                 />
               </ScrollView>
-            </View>
+            </Animated.View>
           </KeyboardAvoidingView>
         </Modal>
       </View>
