@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SkopButton } from '@/components/skop/SkopButton';
-import { SkopColors, SkopFonts } from '@/constants/skop-theme';
+import { SkopColors, SkopFonts, skopNumbers } from '@/constants/skop-theme';
 import { useSkopSession } from '@/context/skop-session';
 
 export default function CheckInScreen() {
@@ -94,13 +94,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     paddingHorizontal: 18,
     flexDirection: 'row',
     alignItems: 'center',
   },
   currency: { color: SkopColors.ink, fontFamily: SkopFonts.bold, fontSize: 27 },
-  input: { flex: 1, marginLeft: 8, color: SkopColors.ink, fontFamily: SkopFonts.bold, fontSize: 27 },
+  input: { ...skopNumbers, flex: 1, marginLeft: 8, color: SkopColors.ink, fontFamily: SkopFonts.bold, fontSize: 27 },
   error: { color: '#b42318', fontFamily: SkopFonts.medium, fontSize: 14, textAlign: 'center' },
   actions: { flexDirection: 'row', gap: 16, minHeight: 64 },
 });

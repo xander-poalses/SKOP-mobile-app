@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { SkopColors, SkopFonts, skopShadow } from "@/constants/skop-theme";
+import { SkopColors, SkopFonts, skopShadow, skopNumbers } from "@/constants/skop-theme";
 import { useSkopSession } from "@/context/skop-session";
 import {
   cellKey,
@@ -1035,9 +1035,10 @@ const styles = StyleSheet.create({
     lineHeight: 34,
   },
   compactTitle: { fontSize: 24, lineHeight: 24 },
-  level: { fontFamily: SkopFonts.score, fontSize: 25, lineHeight: 27 },
+  level: { ...skopNumbers, fontFamily: SkopFonts.score, fontSize: 25, lineHeight: 27 },
   compactLevel: { fontSize: 18, lineHeight: 20 },
   sessionTime: {
+    ...skopNumbers,
     minWidth: 92,
     color: SkopColors.ink,
     fontFamily: SkopFonts.scoreAlt,
@@ -1047,9 +1048,10 @@ const styles = StyleSheet.create({
   compactSessionTime: { minWidth: 70, fontSize: 21 },
   scoreBlock: { minWidth: 140, alignItems: "flex-end" },
   compactScoreBlock: { minWidth: 100 },
-  score: { fontFamily: SkopFonts.score, fontSize: 34, lineHeight: 36 },
+  score: { ...skopNumbers, fontFamily: SkopFonts.score, fontSize: 34, lineHeight: 36 },
   compactScore: { fontSize: 25, lineHeight: 27 },
   highScore: {
+    ...skopNumbers,
     color: "#8bb2b4",
     fontFamily: SkopFonts.scoreAlt,
     fontSize: 24,
@@ -1065,6 +1067,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 48,
     borderRadius: 8,
+    borderCurve: "continuous",
     backgroundColor: SkopColors.ink,
     alignItems: "center",
     justifyContent: "center",
@@ -1090,12 +1093,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: SkopColors.ink,
     borderRadius: 4,
+    borderCurve: "continuous",
     borderWidth: 2,
     borderColor: SkopColors.surface,
   },
   marker: {
     position: "absolute",
     borderRadius: 3,
+    borderCurve: "continuous",
     borderWidth: 1,
     borderColor: SkopColors.ink,
     zIndex: 4,
@@ -1144,6 +1149,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   transitionCount: {
+    ...skopNumbers,
     color: SkopColors.ink,
     fontFamily: SkopFonts.score,
     fontSize: 24,
@@ -1163,6 +1169,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: "continuous",
     padding: 20,
     alignItems: "center",
     ...skopShadow,
@@ -1194,6 +1201,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: "continuous",
     alignItems: "center",
     justifyContent: "center",
     ...skopShadow,

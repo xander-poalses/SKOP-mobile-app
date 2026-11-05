@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.yellow,
     alignItems: 'center',
     justifyContent: 'center',

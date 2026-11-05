@@ -319,6 +319,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 20,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     paddingHorizontal: 16,
     flexDirection: 'row',

@@ -164,6 +164,14 @@ export function SkopSessionProvider({ children }: { children: ReactNode }) {
       let nextSessions = parseSessions(storedSessions);
       let nextCheckIns = parseCheckIns(storedCheckIns);
 
+      // a saved profile opens the app straight away while firestore refreshes behind it
+      if (active && nextProfile) {
+        setCachedProfile(nextProfile);
+        setCachedSessions(nextSessions);
+        setCachedCheckIns(nextCheckIns);
+        setLoadedUserId(userId);
+      }
+
       try {
         if (profilePending === 'true' && nextProfile?.profileVersion === 2) {
           await saveFirestoreProfile(userId, nextProfile);

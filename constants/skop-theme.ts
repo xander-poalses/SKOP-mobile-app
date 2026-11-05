@@ -1,4 +1,4 @@
-import type { ViewStyle } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
 
 // keeps the brand colours in one place
 export const SkopColors = {
@@ -40,4 +40,9 @@ export const SkopFonts = {
 // gives buttons and cards the same hard shadow
 export const skopShadow: ViewStyle = {
   boxShadow: `0px 6px 0px 0px ${SkopColors.shadow}`,
+};
+
+// keeps digits the same width so timers, scores and money don't jump
+export const skopNumbers: TextStyle = {
+  fontVariant: ['tabular-nums'],
 };

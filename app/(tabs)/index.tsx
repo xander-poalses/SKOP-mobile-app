@@ -21,7 +21,7 @@ import {
 } from '@/components/skop/AppHeader';
 import { BottomNav } from '@/components/skop/BottomNav';
 import { SkopButton } from '@/components/skop/SkopButton';
-import { SkopColors, SkopFonts, skopShadow } from '@/constants/skop-theme';
+import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
 import { useSkopSession } from '@/context/skop-session';
 
 export default function HomeScreen() {
@@ -286,6 +286,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 22,
+    borderCurve: 'continuous',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -293,7 +294,7 @@ const styles = StyleSheet.create({
     ...skopShadow,
   },
   compactStreakCard: { height: 118, paddingVertical: 12 },
-  streakValue: { fontSize: 46, lineHeight: 48, fontFamily: SkopFonts.bold, color: SkopColors.surface },
+  streakValue: { ...skopNumbers, fontSize: 46, lineHeight: 48, fontFamily: SkopFonts.bold, color: SkopColors.surface },
   compactStreakValue: { fontSize: 36, lineHeight: 38 },
   streakDivider: { position: 'absolute', top: 74, left: 0, right: 0, height: 2, backgroundColor: SkopColors.ink },
   compactStreakDivider: { top: 57 },
@@ -305,6 +306,7 @@ const styles = StyleSheet.create({
   urgeButton: {
     height: 53,
     borderRadius: 20,
+    borderCurve: 'continuous',
     borderWidth: 2,
     borderColor: SkopColors.ink,
     backgroundColor: SkopColors.yellow,
@@ -320,6 +322,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 20,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.green,
     flexDirection: 'row',
     alignItems: 'center',
@@ -338,6 +341,7 @@ const styles = StyleSheet.create({
     height: 160,
     padding: 10,
     borderRadius: 20,
+    borderCurve: 'continuous',
     borderWidth: 2,
     borderColor: SkopColors.ink,
     backgroundColor: SkopColors.surface,
@@ -345,8 +349,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   statTitle: { width: '100%', fontSize: 15, fontFamily: SkopFonts.bold, color: SkopColors.ink, textAlign: 'center' },
-  money: { width: '100%', fontSize: 36, letterSpacing: 0, fontFamily: SkopFonts.bold, color: SkopColors.ink, textAlign: 'center' },
-  urgeCount: { fontSize: 58, lineHeight: 64, fontFamily: SkopFonts.bold, color: SkopColors.ink },
+  money: { ...skopNumbers, width: '100%', fontSize: 36, letterSpacing: 0, fontFamily: SkopFonts.bold, color: SkopColors.ink, textAlign: 'center' },
+  urgeCount: { ...skopNumbers, fontSize: 58, lineHeight: 64, fontFamily: SkopFonts.bold, color: SkopColors.ink },
   statNote: { width: '100%', fontSize: 12, fontFamily: SkopFonts.body, color: SkopColors.ink, textAlign: 'center' },
   moneyIcon: { width: 32, height: 26, transform: [{ rotate: '180deg' }] },
   modalBackdrop: { flex: 1, padding: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(33, 23, 18, 0.45)' },
@@ -357,6 +361,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.background,
     gap: 16,
     ...skopShadow,

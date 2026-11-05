@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 20,
+    borderCurve: 'continuous',
     alignItems: 'center',
     justifyContent: 'center',
     ...skopShadow,

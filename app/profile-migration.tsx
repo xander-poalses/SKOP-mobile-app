@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     alignItems: 'center',
     justifyContent: 'center',
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
   },
   checkbox: {
@@ -123,6 +125,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 4,
+    borderCurve: 'continuous',
     alignItems: 'center',
     justifyContent: 'center',
   },

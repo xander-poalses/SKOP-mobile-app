@@ -22,7 +22,7 @@ import {
   AppHeader,
 } from '@/components/skop/AppHeader';
 import { BottomNav } from '@/components/skop/BottomNav';
-import { SkopColors, SkopFonts, skopShadow } from '@/constants/skop-theme';
+import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
 import { type SkopSessionRecord, useSkopSession } from '@/context/skop-session';
 
 const weekdayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -459,6 +459,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     paddingHorizontal: 12,
     paddingVertical: 14,
     justifyContent: 'space-between',
@@ -475,6 +476,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   summaryValue: {
+    ...skopNumbers,
     color: SkopColors.ink,
     fontFamily: SkopFonts.bold,
     fontSize: 28,
@@ -512,6 +514,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     paddingHorizontal: 14,
     paddingVertical: 9,
@@ -538,6 +541,7 @@ const styles = StyleSheet.create({
     maxWidth: 72,
     height: 140,
     borderRadius: 8,
+    borderCurve: 'continuous',
     borderWidth: 2,
     borderColor: SkopColors.ink,
     backgroundColor: SkopColors.surface,
@@ -547,6 +551,7 @@ const styles = StyleSheet.create({
     boxShadow: `0px 4px 0px 0px ${SkopColors.shadow}`,
   },
   value: {
+    ...skopNumbers,
     position: 'absolute',
     top: 3,
     fontSize: 20,
@@ -562,6 +567,7 @@ const styles = StyleSheet.create({
   pinLine: {
     width: 4,
     borderRadius: 4,
+    borderCurve: 'continuous',
     borderWidth: 1,
     borderColor: SkopColors.ink,
     backgroundColor: SkopColors.yellow,
@@ -571,6 +577,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
+    borderCurve: 'continuous',
     borderWidth: 1,
     borderColor: SkopColors.ink,
     backgroundColor: SkopColors.yellow,
@@ -595,6 +602,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     paddingHorizontal: 18,
     flexDirection: 'row',
@@ -615,6 +623,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.yellow,
     paddingHorizontal: 18,
     flexDirection: 'row',
@@ -645,6 +654,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     paddingHorizontal: 14,
     paddingVertical: 10,
@@ -663,6 +673,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sessionTime: {
+    ...skopNumbers,
     color: SkopColors.muted,
     fontFamily: SkopFonts.body,
     fontSize: 13,
@@ -678,6 +689,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   sessionMeasureValue: {
+    ...skopNumbers,
     color: SkopColors.ink,
     fontFamily: SkopFonts.bold,
     fontSize: 16,
@@ -697,6 +709,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.background,
     boxShadow: `0px 8px 0px 0px ${SkopColors.shadow}`,
   },
@@ -733,6 +746,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     alignItems: 'center',
     justifyContent: 'center',
@@ -766,6 +780,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 4,
+    borderCurve: 'continuous',
   },
   helpCopy: {
     flex: 1,
@@ -804,6 +819,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: SkopColors.ink,
     borderRadius: 8,
+    borderCurve: 'continuous',
     backgroundColor: SkopColors.surface,
     flexDirection: 'row',
     alignItems: 'center',
