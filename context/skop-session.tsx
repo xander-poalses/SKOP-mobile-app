@@ -85,7 +85,13 @@ type SkopSessionValue = {
   recordHighScore: (score: number) => void;
   completeSession: (session: NewSkopSession) => void;
   resetStreak: () => void;
+  streakResetUndoable: boolean;
+  undoStreakReset: () => void;
+  dismissStreakUndo: () => void;
 };
+
+// how long the undo toast stays after a streak reset
+export const STREAK_UNDO_MS = 6000;
 
 // creates one place for screens to read profile, check-ins and game sessions
 const SkopSessionContext = createContext<SkopSessionValue | null>(null);
@@ -99,6 +105,8 @@ export function SkopSessionProvider({ children }: { children: ReactNode }) {
   const [legacyPlan, setLegacyPlan] = useState<LegacyQuitPlan | null>(null);
   const [loadedUserId, setLoadedUserId] = useState<string | null>(null);
   const [dataSyncStatus, setDataSyncStatus] = useState<DataSyncStatus>('syncing');
+  // keeps the plan from before a streak reset so the toast can put it back
+  const [planBeforeReset, setPlanBeforeReset] = useState<QuitPlan | null>(null);
   const profileLoading = Boolean(user && emailVerified && loadedUserId !== user.uid);
 
   // refs let sync jobs use current state without rebuilding their timers
@@ -329,6 +337,13 @@ export function SkopSessionProvider({ children }: { children: ReactNode }) {
     [setCachedProfile, user]
   );
 
+  // the undo offer ends after a few seconds
+  useEffect(() => {
+    if (!planBeforeReset) return;
+    const timer = setTimeout(() => setPlanBeforeReset(null), STREAK_UNDO_MS);
+    return () => clearTimeout(timer);
+  }, [planBeforeReset]);
+
   // a denied permission switches the saved plan back to manual check-ins
   useEffect(() => {
     if (!quitPlan) {
@@ -469,6 +484,7 @@ export function SkopSessionProvider({ children }: { children: ReactNode }) {
       resetStreak: () => {
         const currentPlan = quitPlanRef.current;
         if (!currentPlan) return;
+        setPlanBeforeReset(currentPlan);
         void persistPlan({
           ...currentPlan,
           journey: 'already_quit',
@@ -478,9 +494,17 @@ export function SkopSessionProvider({ children }: { children: ReactNode }) {
           remindersEnabled: false,
         });
       },
+      streakResetUndoable: Boolean(planBeforeReset),
+      undoStreakReset: () => {
+        if (!planBeforeReset) return;
+        setPlanBeforeReset(null);
+        void persistPlan(planBeforeReset);
+      },
+      dismissStreakUndo: () => setPlanBeforeReset(null),
     }),
     [
       averageSessionSeconds,
+      planBeforeReset,
       checkInDue,
       dataSyncStatus,
       highScore,

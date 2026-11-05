@@ -33,8 +33,6 @@ export default function SettingsScreen() {
   const { quitPlan, resetStreak, updateQuitPlan } = useSkopSession();
   const { deleteAccount, logOut, sendPasswordReset, user } = useAuth();
 
-  // controls whether the reset warning is open
-  const [confirmingReset, setConfirmingReset] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deletePassword, setDeletePassword] = useState('');
   const [deletingAccount, setDeletingAccount] = useState(false);
@@ -139,10 +137,9 @@ export default function SettingsScreen() {
     }
   };
 
-  // clears the streak and returns home
+  // clears the streak and returns home, where an undo toast can put it back
   const confirmReset = () => {
     resetStreak();
-    setConfirmingReset(false);
     router.replace('/');
   };
 
@@ -293,7 +290,7 @@ export default function SettingsScreen() {
   const accountFooter = (
     <View style={[styles.footer, wideLayout && styles.wideFooter]}>
       {quitPlan?.status === 'quit' && (
-        <Pressable accessibilityRole="button" onPress={() => setConfirmingReset(true)} style={styles.resetLink}>
+        <Pressable accessibilityRole="button" onPress={confirmReset} style={styles.resetLink}>
           <Text style={styles.resetText}>{getResetLabel(quitPlan.productType)}</Text>
         </Pressable>
       )}
@@ -348,19 +345,6 @@ export default function SettingsScreen() {
         )}
 
         {/* asks for confirmation before changing the streak */}
-        {confirmingReset && (
-          <View style={styles.overlay}>
-            <View style={styles.dialog}>
-              <Text style={styles.dialogTitle}>RESET YOUR STREAK?</Text>
-              <Text style={styles.dialogBody}>This starts your quit time from today.</Text>
-              <View style={styles.actions}>
-                <SkopButton label="GO BACK" small onPress={() => setConfirmingReset(false)} />
-                <SkopButton label="RESET" variant="pink" small onPress={confirmReset} />
-              </View>
-            </View>
-          </View>
-        )}
-
         {/* deletion needs the current password before firebase accepts it */}
         {confirmingDelete && (
           <View style={styles.overlay}>

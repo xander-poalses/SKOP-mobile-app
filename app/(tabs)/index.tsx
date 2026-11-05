@@ -21,6 +21,7 @@ import {
 } from '@/components/skop/AppHeader';
 import { BottomNav } from '@/components/skop/BottomNav';
 import { SkopButton } from '@/components/skop/SkopButton';
+import { UndoToast } from '@/components/skop/UndoToast';
 import { SkopColors, SkopFonts, skopShadow, skopNumbers } from '@/constants/skop-theme';
 import { useSkopSession } from '@/context/skop-session';
 
@@ -34,6 +35,8 @@ export default function HomeScreen() {
     quitPlan,
     skopSessionCount,
     streak,
+    streakResetUndoable,
+    undoStreakReset,
     updateQuitPlan,
   } = useSkopSession();
   const [targetPromptHidden, setTargetPromptHidden] = useState(false);
@@ -172,6 +175,14 @@ export default function HomeScreen() {
 
         <AppHeader title="SKOP the URGE" />
         <BottomNav active="home" />
+        {/* sits just above the bottom nav after a streak reset */}
+        {streakResetUndoable && (
+          <UndoToast
+            bottom={(compactHeader ? 72 : 112) + 16}
+            message="Streak reset to today"
+            onUndo={undoStreakReset}
+          />
+        )}
       </View>
 
       <Modal animationType="fade" transparent visible={targetReached && !targetPromptHidden}>
